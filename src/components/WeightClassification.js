@@ -1,31 +1,16 @@
 import { StyleSheet, Text, View } from 'react-native'
+import weightClassifications from './utils/weightClassifications'
 
 export default function WeightClassification() {
-  const weightClassifications = [
-    {
-      iconText: '< 18.5',
-      label: 'Abaixo do peso',
-      id: 1
-    }, {
-      iconText: '18.5 - 24.9',
-      label: 'Peso normal',
-      id: 2
-    }, {
-      iconText: '> 24.9',
-      label: 'Acima do peso',
-      id: 3
-    }
-  ]
-
   return (
     <View style={style.container}>
       {
         weightClassifications.map((weight) => (
           <View key={weight.id} style={style.weightIconContainer}>
-            <View style={style.weightIcon}>
-              <Text style={style.weightIconText}>{weight.iconText}</Text>
+            <View style={{ backgroundColor: weight.backgroundColor, ...style.weightIcon }}>
+              <Text style={{ color: weight.textColor,...style.weightIconText }}>{weight.iconText}</Text>
             </View>
-            <Text style={{ fontWeight: 'bold' }}>{weight.label}</Text>
+            <Text style={{ color: '#202226', fontWeight: 'bold' }}>{weight.label}</Text>
           </View>
         ))
       }
@@ -36,28 +21,26 @@ export default function WeightClassification() {
 const style = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    flex: 1,
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-between'
   },
   weightIconContainer: {
     display: 'flex',
     alignItems: 'center'
   },
   weightIcon: {
-    width: 80,
-    height: 80,
-    backgroundColor: '#f00',
-    marginTop: 50,
+    width: 90,
+    height: 90,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 20,
-    borderRadius: 40
+    borderRadius: 45,
+    marginBottom: 10
   },
   weightIconText: {
-    color: '#fff',
+    fontSize: 14,
     fontWeight: 'bold',
   }
 })

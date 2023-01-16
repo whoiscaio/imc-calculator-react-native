@@ -8,8 +8,10 @@ export default function App() {
     <SafeAreaView>
       <View style={style.appContainer}>
         <Header />
-        <IMCForm />
-        <WeightClassification />
+        <View style={style.whiteWrapper}>
+          <IMCForm />
+          <WeightClassification />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -22,5 +24,13 @@ const style = StyleSheet.create({
     height: '100%',
     display: 'flex',
     flexDirection: 'column'
+  },
+  whiteWrapper: {
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    backgroundColor: '#fff',
+    paddingHorizontal: 25,
+    paddingVertical: 30,
+    flex: 1
   }
 })

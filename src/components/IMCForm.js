@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import { Keyboard, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import weightClassifications from './utils/weightClassifications'
 
 export default function IMCForm() {
   const [weight, setWeight] = useState()
   const [height, setHeight] = useState()
+
   const [result, setResult] = useState()
+  const [resultTextColor, setResultTextColor] = useState()
 
   function calculate() {
     if (!weight || !height) return
@@ -13,15 +16,18 @@ export default function IMCForm() {
 
     const heightInMeters = height / 100
     const imcValue = weight / Math.pow(heightInMeters, 2)
+    const resultTextColor = weightClassifications.find(weight => weight.test(imcValue))?.textColor
 
     setResult(imcValue.toFixed(2))
+    setResultTextColor(resultTextColor)
   }
 
   return (
-    <View style={style.container}>
+    <View>
       <View style={style.inputArea}>
         <Text style={style.label}>Informe o peso (KG)</Text>
         <TextInput
+          inputMode='numeric'
           keyboardType='numeric'
           value={weight}
           onChangeText={(newText) => setWeight(newText)}
@@ -32,6 +38,7 @@ export default function IMCForm() {
       <View style={style.inputArea}>
         <Text style={style.label}>Informe a altura (CM)</Text>
         <TextInput
+          inputMode='numeric'
           keyboardType='numeric'
           value={height}
           onChangeText={(newText) => setHeight(newText)}
@@ -41,47 +48,44 @@ export default function IMCForm() {
 
       <View style={style.buttonArea}>
         <Pressable disabled={!(height && weight)} onPress={calculate} style={style.button}>
-          <Text style={{ color: '#fff' }}>Calcular IMC</Text>
+          <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Calcular IMC</Text>
         </Pressable>
       </View>
 
-      {
-        result && (
-          <View style={style.resultContainer}>
-            <Text style={style.resultText}>SEU IMC é: {result}</Text>
-          </View>
-        )
-      }
+      <View style={style.resultContainer}>
+        {
+          result && (
+            <Text style={{ color: resultTextColor || '#f90', ...style.resultText }}>SEU IMC é: {result}</Text>
+          )
+        }
+      </View>
     </View>
   )
 }
 
 const style = StyleSheet.create({
-  container: {
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    backgroundColor: '#fff',
-    flex: 1,
-    paddingHorizontal: 10,
-    paddingVertical: 15
-  },
   inputArea: {
-    marginBottom: 20
+    marginBottom: 30
   },
   label: {
-    marginBottom: 10
+    fontSize: 16,
+    marginBottom: 6,
+    fontWeight: 'bold'
   },
   input: {
     borderWidth: 1,
     borderRadius: 5,
-    paddingLeft: 8
+    paddingLeft: 8,
+    fontSize: 16,
+    paddingHorizontal: 5,
+    paddingVertical: 5
   },
   buttonArea: {
     width: '100%',
     display: 'flex',
     marginTop: 20,
-    marginBottom: 50,
-    alignItems: 'center',
+    marginBottom: 40,
+    alignItems: 'center'
   },
   button: {
     backgroundColor: '#222026',
@@ -91,11 +95,12 @@ const style = StyleSheet.create({
   },
   resultContainer: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    height: 30,
+    marginBottom: 20
   },
   resultText: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#cc0000'
+    fontWeight: 'bold'
   }
 })
