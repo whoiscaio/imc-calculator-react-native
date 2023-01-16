@@ -1,6 +1,7 @@
 import { Platform, SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
 import Header from './src/components/Header';
 import IMCForm from './src/components/IMCForm';
+import WeightClassification from './src/components/WeightClassification';
 
 export default function App() {
   return (
@@ -8,6 +9,7 @@ export default function App() {
       <View style={style.appContainer}>
         <Header />
         <IMCForm />
+        <WeightClassification />
       </View>
     </SafeAreaView>
   );
